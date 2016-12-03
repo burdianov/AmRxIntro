@@ -90,7 +90,7 @@
     <string name="push_notifications">Push notifications:</string>
     <string name="order_status_notification">Notify about order status</string>
     <string name="special_offer_notification">Notify about promotions and special offers</string>
-    <string name="delivery_location_label">Delivery location</string>
+    <string name="location_label">Location</string>
     <string name="delivery_location">In the middle of nowhere</string>
     <string name="hint_building">Bldg.</string>
     <string name="hint_apartment">Apt.</string>
@@ -106,5 +106,7 @@
     <string name="take_photo">Take photo</string>
     <string name="change_photo">Change photo</string>
     <string name="pick_a_photo">Pick a photo</string>
+    <string name="random_address">At the end of the world</string>
+    <string name="no_comment">No comment</string>
 
 </resources>

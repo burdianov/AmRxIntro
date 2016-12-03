@@ -54,7 +54,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/size_small_16"
-                            android:hint="@string/delivery_location_label"
+                            android:hint="@string/location_label"
                             android:inputType="textVisiblePassword"
                             android:textColorHint="@color/color_grey_darker"/>
 

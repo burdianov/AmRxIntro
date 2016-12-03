@@ -125,7 +125,7 @@
             <View style="@style/HorizontalDivider"/>
 
             <TextView
-                style="@style/AccountTitle"
+                style="@style/CustomText.AccountTitle"
                 android:text="@string/delivery_address"/>
 
             <android.support.v7.widget.RecyclerView
@@ -145,7 +145,7 @@
                 android:layout_marginTop="@dimen/spacing_normal_16"/>
 
             <TextView
-                style="@style/AccountTitle"
+                style="@style/CustomText.AccountTitle"
                 android:text="@string/push_notifications"/>
 
             <android.support.v7.widget.SwitchCompat

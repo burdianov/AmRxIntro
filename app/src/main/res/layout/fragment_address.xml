@@ -47,7 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_tiny_4"
-                        android:text="@string/delivery_location_label"
+                        android:text="@string/location_label"
                         android:textColor="@color/color_grey_darker"
                         android:textSize="@dimen/font_small_12"/>
 
