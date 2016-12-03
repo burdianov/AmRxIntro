@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginRight="@dimen/spacing_medial_24"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_gravity="left">
+
+    <ImageView
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/spacing_larger_96"
+        android:layout_marginTop="@dimen/spacing_small_8"
+        android:src="@drawable/firebase_icon"
+        android:layout_width="@dimen/spacing_medium_32"
+        android:layout_height="@dimen/spacing_medium_32"/>
+
+    <!-- Menu Item Image -->
+    <ImageView
+        android:layout_alignParentRight="true"
+        android:layout_width="24dp"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:layout_marginRight="@dimen/spacing_medial_24"
+        android:src="@drawable/basket"/>
+
+    <!-- Badge Count -->
+    <TextView
+        android:id="@+id/items_in_cart_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:paddingTop="@dimen/spacing_tiny_4"
+        android:paddingRight="@dimen/spacing_normal_16"
+        android:paddingBottom="@dimen/spacing_tiny_4"
+        android:paddingLeft="@dimen/spacing_tiny_4"
+        android:textStyle="bold"
+        android:textColor="@android:color/holo_orange_dark"/>
+
+</RelativeLayout>
