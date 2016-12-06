@@ -1,7 +1,10 @@
 package com.testography.am_mvp.ui.screens.address;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.testography.am_mvp.R;
@@ -11,13 +14,31 @@ import com.testography.am_mvp.mvp.views.IAddressView;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AddressView extends RelativeLayout implements IAddressView {
 
+    @BindView(R.id.address_name_et)
+    EditText mAddressNameEt;
+    @BindView(R.id.street_et)
+    EditText mStreetEt;
+    @BindView(R.id.number_building_et)
+    EditText mNumberBuildingEt;
+    @BindView(R.id.number_apartment_et)
+    EditText mNumberApartmentEt;
+    @BindView(R.id.number_floor_et)
+    EditText mNumberFloor;
+    @BindView(R.id.comment_et)
+    EditText mCommentEt;
+    @BindView(R.id.add_btn)
+    Button mAddBtn;
+
     @Inject
     AddressScreen.AddressPresenter mPresenter;
+
+    private int mAddressId;
 
     public AddressView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -52,6 +73,20 @@ public class AddressView extends RelativeLayout implements IAddressView {
     //endregion
 
     //region ==================== IAddressView ===================
+
+    public void initView(@Nullable UserAddressDto address) {
+        if (address != null) {
+            mAddressId = address.getId();
+            mAddressNameEt.setText(address.getName());
+            mStreetEt.setText(address.getStreet());
+            mNumberBuildingEt.setText(address.getBuilding());
+            mNumberApartmentEt.setText(address.getApartment());
+            mNumberFloor.setText(address.getFloor());
+            mCommentEt.setText(address.getComment());
+            mAddBtn.setText(R.string.save);
+        }
+    }
+
     @Override
     public void showInputError() {
         // TODO: 29-Nov-16 implement this
@@ -59,8 +94,14 @@ public class AddressView extends RelativeLayout implements IAddressView {
 
     @Override
     public UserAddressDto getUserAddress() {
-        // TODO: 29-Nov-16 implement this
-        return null;
+        return new UserAddressDto(mAddressId,
+                mAddressNameEt.getText().toString(),
+                mStreetEt.getText().toString(),
+                mNumberBuildingEt.getText().toString(),
+                mNumberApartmentEt.getText().toString(),
+                Integer.parseInt(mNumberFloor.getText().toString()),
+                mCommentEt.getText().toString()
+        );
     }
 
     @Override
@@ -70,7 +111,7 @@ public class AddressView extends RelativeLayout implements IAddressView {
     //endregion
 
     //region ==================== Events ===================
-    @OnClick(R.id.add_address_btn)
+    @OnClick(R.id.add_btn)
     void AddAddress() {
         mPresenter.clickOnAddAddress();
     }

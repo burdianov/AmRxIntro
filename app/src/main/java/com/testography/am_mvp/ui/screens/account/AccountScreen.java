@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.testography.am_mvp.R;
+import com.testography.am_mvp.data.storage.dto.UserAddressDto;
+import com.testography.am_mvp.data.storage.dto.UserSettingsDto;
 import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.di.scopes.AccountScope;
 import com.testography.am_mvp.flow.AbstractScreen;
@@ -12,6 +14,7 @@ import com.testography.am_mvp.flow.Screen;
 import com.testography.am_mvp.mvp.models.AccountModel;
 import com.testography.am_mvp.mvp.presenters.IAccountPresenter;
 import com.testography.am_mvp.mvp.presenters.RootPresenter;
+import com.testography.am_mvp.mvp.presenters.SubscribePresenter;
 import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.ui.activities.RootActivity;
 import com.testography.am_mvp.ui.screens.address.AddressScreen;
@@ -21,7 +24,7 @@ import javax.inject.Inject;
 import dagger.Provides;
 import flow.Flow;
 import mortar.MortarScope;
-import mortar.ViewPresenter;
+import rx.Subscription;
 
 @Screen(R.layout.screen_account)
 public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
@@ -76,8 +79,10 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
 
 
     //region ==================== Presenter ===================
-    public class AccountPresenter extends ViewPresenter<AccountView> implements
+    public class AccountPresenter extends SubscribePresenter<AccountView> implements
             IAccountPresenter {
+
+        public static final String TAG = "AccountPresenter";
 
         @Inject
         RootPresenter mRootPresenter;
@@ -85,6 +90,10 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
         AccountModel mAccountModel;
 
         private Uri mAvatarUri;
+        private Subscription mAddressSub;
+        private Subscription mSettingsSub;
+
+        //region ==================== Lifecycle ===================
 
         @Override
         protected void onEnterScope(MortarScope scope) {
@@ -95,16 +104,61 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
         @Override
         protected void onLoad(Bundle savedInstanceState) {
             super.onLoad(savedInstanceState);
-            if (getRootView() != null && getView() != null) {
-
-                getView().initView(mAccountModel.getUserDto());
-                mAvatarUri = Uri.parse(mAccountModel.getUserDto().getAvatar());
+            if (getView() != null) {
+                getView().initView();
             }
+            subscribeOnAddressObs();
         }
 
         @Override
-        public void onClickAddress() {
-            Flow.get(getView()).set(new AddressScreen());
+        protected void onSave(Bundle outState) {
+            super.onSave(outState);
+            mAddressSub.unsubscribe();
+        }
+
+        @Override
+        protected void onExitScope() {
+            super.onExitScope();
+        }
+
+        //endregion
+
+        //region ==================== Subscription ===================
+
+        private void subscribeOnAddressObs() {
+
+            mAddressSub = subscribe(mAccountModel.getAddressObs(), new
+                    ViewSubscriber<UserAddressDto>() {
+                        @Override
+                        public void onNext(UserAddressDto addressDto) {
+                            if (getView() != null) {
+                                getView().getAdapter().addItem(addressDto);
+                            }
+                        }
+                    });
+        }
+
+        public void updateListView() {
+            getView().getAdapter().reloadAdapter();
+            subscribeOnAddressObs();
+        }
+
+        private void subscribeOnSettingsObs() {
+            mSettingsSub = subscribe(mAccountModel.getUserSettingsObs(), new ViewSubscriber<UserSettingsDto>() {
+                @Override
+                public void onNext(UserSettingsDto userSettingsDto) {
+                    if (getView() != null) {
+                        getView().initSettings(userSettingsDto);
+                    }
+                }
+            });
+        }
+
+        //endregion
+
+        @Override
+        public void clickOnAddress() {
+            Flow.get(getView()).set(new AddressScreen(null));
         }
 
         @Override
@@ -151,18 +205,27 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
         }
 
         @Override
-        public Uri getSelectedImage() {
-            return getRootView().getPhoto();
+        public void removeAddress(int position) {
+            mAccountModel.removeAddress(mAccountModel.getAddressFromPosition(position));
+            updateListView();
         }
 
         @Override
-        public void setAvatar(Uri avatar) {
-            mAccountModel.saveAvatarPhoto(avatar);
+        public void editAddress(int position) {
+            Flow.get(getView()).set(new AddressScreen(mAccountModel
+                    .getAddressFromPosition(position)));
         }
 
         @Nullable
-        public IRootView getRootView() {
+        @Override
+        protected IRootView getRootView() {
             return mRootPresenter.getView();
+        }
+
+        public void switchSettings() {
+            if (getView() != null) {
+                mAccountModel.saveSettings(getView().getSettings());
+            }
         }
     }
     //endregion

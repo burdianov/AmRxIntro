@@ -167,11 +167,6 @@ public class SplashActivity extends AppCompatActivity implements IRootView {
         return null;
     }
 
-    @Override
-    public void setAvatarCallback(RootActivity.AvatarHolderCallback avatarCallback) {
-
-    }
-
     // TODO: 25-Nov-16 Resolve the commented methods
 //    @Override
 //    public void animateSocialButtons() {

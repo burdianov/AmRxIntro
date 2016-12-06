@@ -332,17 +332,6 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     }
     //endregion
 
-    public interface AvatarHolderCallback {
-        void passSelectedImage(Uri avatar);
-    }
-
-    private AvatarHolderCallback mAvatarCallback;
-
-    @Override
-    public void setAvatarCallback(AvatarHolderCallback avatarCallback) {
-        mAvatarCallback = avatarCallback;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -350,13 +339,11 @@ public class RootActivity extends AppCompatActivity implements IRootView,
             case ConstantsManager.REQUEST_GALLERY_PICTURE:
                 if (resultCode == RESULT_OK && data != null) {
                     mSelectedImage = data.getData();
-                    mAvatarCallback.passSelectedImage(mSelectedImage);
                 }
                 break;
             case ConstantsManager.REQUEST_CAMERA_PICTURE:
                 if (resultCode == RESULT_OK && mPhotoFile != null) {
                     mSelectedImage = Uri.fromFile(mPhotoFile);
-                    mAvatarCallback.passSelectedImage(mSelectedImage);
                 }
         }
     }

@@ -71,7 +71,7 @@ public class UserAddressDto implements Parcelable {
         this.street = street;
     }
 
-    public String getHouse() {
+    public String getBuilding() {
         return house;
     }
 

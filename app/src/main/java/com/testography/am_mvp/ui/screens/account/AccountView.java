@@ -2,7 +2,6 @@ package com.testography.am_mvp.ui.screens.account;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,13 +21,10 @@ import android.widget.TextView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.R;
-import com.testography.am_mvp.data.storage.dto.UserAddressDto;
 import com.testography.am_mvp.data.storage.dto.UserDto;
+import com.testography.am_mvp.data.storage.dto.UserSettingsDto;
 import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.mvp.views.IAccountView;
-import com.testography.am_mvp.ui.activities.RootActivity;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -37,8 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import flow.Flow;
 
-public class AccountView extends CoordinatorLayout implements IAccountView,
-        RootActivity.AvatarHolderCallback {
+public class AccountView extends CoordinatorLayout implements IAccountView {
 
     public static final int PREVIEW_STATE = 1;
     public static final int EDIT_STATE = 0;
@@ -70,7 +65,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView,
     private AccountScreen mScreen;
     private UserDto mUserDto;
     private TextWatcher mWatcher;
-    private AddressesAdapter mAddressesAdapter;
+    private AddressesAdapter mAdapter;
 
     public AccountView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -79,6 +74,10 @@ public class AccountView extends CoordinatorLayout implements IAccountView,
             DaggerService.<AccountScreen.Component>getDaggerComponent(context).inject
                     (this);
         }
+    }
+
+    public AddressesAdapter getAdapter() {
+        return mAdapter;
     }
 
     //region ==================== flow view lifecycle callbacks ===================
@@ -101,9 +100,6 @@ public class AccountView extends CoordinatorLayout implements IAccountView,
         super.onAttachedToWindow();
         if (!isInEditMode()) {
             mPresenter.takeView(this);
-            if (mPresenter.getRootView() != null) {
-                mPresenter.getRootView().setAvatarCallback(this);
-            }
         }
     }
 
@@ -116,44 +112,84 @@ public class AccountView extends CoordinatorLayout implements IAccountView,
     }
     //endregion
 
-    public void initView(UserDto user) {
-        mUserDto = user;
-        initProfileInfo();
-        initList();
-        initSettings();
-        showViewFromState();
+    public void initView() {
+        //showViewFromState();
+
+        mAdapter = new AddressesAdapter();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mAddressList.setLayoutManager(layoutManager);
+        mAddressList.setAdapter(mAdapter);
+
+        mAddressList.setVisibility(VISIBLE);
+
+        initSwipe();
+
+//        mUserDto = user;
+//        initProfileInfo();
+//        initList();
+//        initSettings();
+//        showViewFromState();
     }
 
-    private void initSettings() {
-        notificationOrderSw.setChecked(mUserDto.isOrderNotification());
-        notificationOrderSw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mPresenter.switchOrder(b);
-            }
-        });
+    public void initSettings(UserSettingsDto settings) {
+        CompoundButton.OnCheckedChangeListener listener = (compoundButton, b) -> mPresenter.switchSettings();
+        notificationOrderSw.setChecked(settings.isOrderNotification());
+        notificationPromoSw.setChecked(settings.isPromoNotification());
+        notificationOrderSw.setOnCheckedChangeListener(listener);
+        notificationPromoSw.setOnCheckedChangeListener(listener);
+    }
 
-        notificationPromoSw.setChecked(mUserDto.isPromoNotification());
-        notificationPromoSw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    private void initSwipe() {
+        ItemSwipeCallback swipeCallback = new ItemSwipeCallback(getContext(), 0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mPresenter.switchPromo(b);
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                if (direction == ItemTouchHelper.LEFT) {
+                    showRemoveAddressDialog(position);
+                } else {
+                    showEditAddressDialog(position);
+                }
             }
-        });
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
+        itemTouchHelper.attachToRecyclerView(mAddressList);
+    }
+
+    private void showEditAddressDialog(int position) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder.setTitle(R.string.edit_address)
+                .setMessage(R.string.edit_address_question)
+                .setPositiveButton(R.string.edit, (dialogInterface, i) -> mPresenter.editAddress(position))
+                .setNegativeButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel())
+                .setOnCancelListener(dialogInterface -> mAdapter.notifyDataSetChanged())
+                .show();
+    }
+
+    private void showRemoveAddressDialog(int position) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder.setTitle(R.string.delete_address)
+                .setMessage(R.string.delete_address_question)
+                .setPositiveButton(R.string.delete, (dialogInterface, i) -> mPresenter
+                        .removeAddress(position))
+                .setNegativeButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel())
+                .setOnCancelListener(dialogInterface -> mAdapter.notifyDataSetChanged())
+                .show();
     }
 
     private void initList() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        mAddressList.setLayoutManager(layoutManager);
-        mAddressList.setVisibility(VISIBLE);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+//        mAddressList.setLayoutManager(layoutManager);
+//        mAddressList.setVisibility(VISIBLE);
 
-        ArrayList<UserAddressDto> userAddresses = mUserDto.getUserAddresses();
-        mAddressesAdapter = new AddressesAdapter(userAddresses);
-        mAddressList.setAdapter(mAddressesAdapter);
-
-        SimpleTouchCallback callback = new SimpleTouchCallback(mAddressesAdapter);
-        ItemTouchHelper helper = new ItemTouchHelper(callback);
-        helper.attachToRecyclerView(mAddressList);
+//        ArrayList<UserAddressDto> userAddresses = mUserDto.getUserAddresses();
+//        mAdapter = new AddressesAdapter(userAddresses);
+//        mAddressList.setAdapter(mAdapter);
+//
+//        SimpleTouchCallback callback = new SimpleTouchCallback(mAdapter);
+//        ItemTouchHelper helper = new ItemTouchHelper(callback);
+//        helper.attachToRecyclerView(mAddressList);
     }
 
     private void initProfileInfo() {
@@ -271,7 +307,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView,
 
     @OnClick(R.id.add_address_btn)
     void clickAddAddress() {
-        mPresenter.onClickAddress();
+        mPresenter.clickOnAddress();
     }
 
     @OnClick(R.id.user_avatar_img)
@@ -281,9 +317,9 @@ public class AccountView extends CoordinatorLayout implements IAccountView,
         }
     }
 
-    @Override
-    public void passSelectedImage(Uri avatar) {
-        mPresenter.setAvatar(avatar);
+    public UserSettingsDto getSettings() {
+        return new UserSettingsDto(notificationOrderSw.isChecked(),
+                notificationPromoSw.isChecked());
     }
 
     //endregion

@@ -52,7 +52,7 @@
                         android:textSize="@dimen/font_small_12"/>
 
                     <EditText
-                        android:id="@+id/delivery_location_et"
+                        android:id="@+id/address_name_et"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/delivery_location"
@@ -135,7 +135,7 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/building_et"
+                            android:id="@+id/number_building_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint_building"
@@ -162,7 +162,7 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/apartment_et"
+                            android:id="@+id/number_apartment_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint_apartment"
@@ -189,7 +189,7 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/floor_et"
+                            android:id="@+id/number_floor_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint_floor"
@@ -215,7 +215,7 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/comments_et"
+                        android:id="@+id/comment_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/address_comments"

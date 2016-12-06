@@ -29,10 +29,6 @@ public class AddressesAdapter extends RecyclerView
         notifyDataSetChanged();
     }
 
-    public AddressesAdapter(ArrayList<UserAddressDto> userAddressesDto) {
-        mUserAddresses = userAddressesDto;
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout
@@ -56,7 +52,7 @@ public class AddressesAdapter extends RecyclerView
         addressBuilder.append("Str. ");
         addressBuilder.append(info.getStreet());
         addressBuilder.append(" ");
-        addressBuilder.append(info.getHouse());
+        addressBuilder.append(info.getBuilding());
         addressBuilder.append(" - ");
         addressBuilder.append(info.getApartment());
         addressBuilder.append(", ");

@@ -108,5 +108,13 @@
     <string name="pick_a_photo">Pick a photo</string>
     <string name="random_address">At the end of the world</string>
     <string name="no_comment">No comment</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="edit_address_question">Are you sure you want to edit this address?</string>
+    <string name="delete_address_question">Are you sure you want to delete this
+        address?</string>
+    <string name="edit_address">Edit address</string>
+    <string name="delete_address">Delete address?</string>
 
 </resources>
