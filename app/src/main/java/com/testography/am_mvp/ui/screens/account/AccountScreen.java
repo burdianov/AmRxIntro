@@ -107,13 +107,15 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
             if (getView() != null) {
                 getView().initView();
             }
-            subscribeOnAddressObs();
+            subscribeOnAddressesObs();
+            subscribeOnSettingsObs();
         }
 
         @Override
         protected void onSave(Bundle outState) {
             super.onSave(outState);
             mAddressSub.unsubscribe();
+            mSettingsSub.unsubscribe();
         }
 
         @Override
@@ -125,7 +127,7 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
 
         //region ==================== Subscription ===================
 
-        private void subscribeOnAddressObs() {
+        private void subscribeOnAddressesObs() {
 
             mAddressSub = subscribe(mAccountModel.getAddressObs(), new
                     ViewSubscriber<UserAddressDto>() {
@@ -140,7 +142,7 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
 
         public void updateListView() {
             getView().getAdapter().reloadAdapter();
-            subscribeOnAddressObs();
+            subscribeOnAddressesObs();
         }
 
         private void subscribeOnSettingsObs() {

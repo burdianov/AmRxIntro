@@ -127,8 +127,6 @@ public class DataManager {
         return getAppContext().getString(resourceId);
     }
 
-    /////////////////////////////////////////////
-
     public Map<String, String> getUserProfileInfo() {
         return mUserProfileInfo;
     }
@@ -155,6 +153,20 @@ public class DataManager {
 
     public void addAddress(UserAddressDto userAddressDto) {
         // TODO: 29-Nov-16 implement method
+    }
+
+    public void updateOrInsertAddress(UserAddressDto addressDto) {
+        if (mUserAddresses.contains(addressDto)) {
+            mUserAddresses.set(mUserAddresses.indexOf(addressDto), addressDto);
+        } else {
+            mUserAddresses.add(0, addressDto);
+        }
+    }
+
+    public void removeAddress(UserAddressDto addressDto) {
+        if (mUserAddresses.contains(addressDto)) {
+            mUserAddresses.remove(mUserAddresses.indexOf(addressDto));
+        }
     }
 
     private void generateMockData() {

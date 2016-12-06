@@ -27,11 +27,11 @@ public class AccountModel extends AbstractModel {
     }
 
     public void updateOrInsertAddress(UserAddressDto addressDto) {
-        // TODO: 03-Dec-16 implement me
+        mDataManager.updateOrInsertAddress(addressDto);
     }
 
     public void removeAddress(UserAddressDto addressDto) {
-        // TODO: 03-Dec-16 implement me
+        mDataManager.removeAddress(addressDto);
     }
 
     public UserAddressDto getAddressFromPosition(int position) {
