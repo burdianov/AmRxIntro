@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 
 import com.testography.am_mvp.BuildConfig;
 import com.testography.am_mvp.R;
+import com.testography.am_mvp.data.storage.dto.UserInfoDto;
 import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.flow.TreeKeyDispatcher;
 import com.testography.am_mvp.mortar.ScreenScoper;
@@ -149,6 +150,11 @@ public class SplashActivity extends AppCompatActivity implements IRootView {
     @Override
     public IView getCurrentScreen() {
         return (IView) mRootFrame.getChildAt(0);
+    }
+
+    @Override
+    public void initDrawer(UserInfoDto userInfoDto) {
+
     }
 
     // TODO: 25-Nov-16 Resolve the commented methods

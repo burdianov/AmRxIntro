@@ -11,13 +11,14 @@
                 android:background="@drawable/nav_header_bg">
 
     <ImageView
-        android:id="@+id/user_avatar_iv"
+        android:id="@+id/drawer_user_avatar"
         android:layout_width="@dimen/spacing_large_60"
         android:layout_height="@dimen/spacing_large_60"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"/>
 
     <TextView
+        android:id="@+id/drawer_user_name"
         android:text="@string/user_first_name"
         android:fontFamily="@string/roboto_medium"
         android:layout_alignParentBottom="true"

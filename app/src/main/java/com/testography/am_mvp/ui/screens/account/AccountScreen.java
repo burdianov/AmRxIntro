@@ -71,11 +71,6 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
     //region ==================== DI ===================
     @dagger.Module
     public class Module {
-        @Provides
-        @AccountScope
-        AccountModel provideAccountModel() {
-            return new AccountModel();
-        }
 
         @Provides
         @AccountScope

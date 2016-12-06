@@ -22,7 +22,7 @@ public class App extends Application {
     private static SharedPreferences sSharedPreferences;
     private static Context sAppContext;
     private MortarScope mRootActivityScope;
-    private RootActivity.RootComponent mRootActivityRootComponent;
+    private static RootActivity.RootComponent mRootActivityRootComponent;
 
     public static AppComponent getAppComponent() {
         return sAppComponent;
@@ -79,5 +79,9 @@ public class App extends Application {
                 .rootModule(new RootModule())
                 .picassoCacheModule(new PicassoCacheModule())
                 .build();
+    }
+
+    public static RootActivity.RootComponent getRootActivityRootComponent() {
+        return mRootActivityRootComponent;
     }
 }

@@ -24,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -32,12 +33,14 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.BuildConfig;
 import com.testography.am_mvp.R;
+import com.testography.am_mvp.data.storage.dto.UserInfoDto;
 import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.di.components.AppComponent;
 import com.testography.am_mvp.di.modules.PicassoCacheModule;
 import com.testography.am_mvp.di.modules.RootModule;
 import com.testography.am_mvp.di.scopes.RootScope;
 import com.testography.am_mvp.flow.TreeKeyDispatcher;
+import com.testography.am_mvp.mvp.models.AccountModel;
 import com.testography.am_mvp.mvp.presenters.RootPresenter;
 import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.mvp.views.IView;
@@ -75,6 +78,8 @@ public class RootActivity extends AppCompatActivity implements IRootView,
 
     @Inject
     RootPresenter mRootPresenter;
+    @Inject
+    Picasso mPicasso;
 
     private AlertDialog.Builder exitDialog;
     private ArrayList<Integer> mNavSet = new ArrayList<>();
@@ -115,8 +120,9 @@ public class RootActivity extends AppCompatActivity implements IRootView,
         rootComponent.inject(this);
 
         initToolbar();
-        initDrawer();
+
         initExitDialog();
+
         mRootPresenter.takeView(this);
         mRootPresenter.initView();
     }
@@ -193,7 +199,8 @@ public class RootActivity extends AppCompatActivity implements IRootView,
 //        }
 //    }
 
-    private void initDrawer() {
+    private void initToolbar() {
+        setSupportActionBar(mToolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
                 mDrawer, mToolbar, R.string.open_drawer, R.string.close_drawer);
 
@@ -201,11 +208,6 @@ public class RootActivity extends AppCompatActivity implements IRootView,
         toggle.syncState();
         mNavigationView.setNavigationItemSelectedListener(this);
         setupRoundedAvatar();
-    }
-
-    private void initToolbar() {
-
-        setSupportActionBar(mToolbar);
     }
 
     @Override
@@ -242,7 +244,7 @@ public class RootActivity extends AppCompatActivity implements IRootView,
 
     private void setupRoundedAvatar() {
         ImageView avatar = (ImageView) mNavigationView.getHeaderView(0)
-                .findViewById(R.id.user_avatar_iv);
+                .findViewById(R.id.drawer_user_avatar);
         InputStream resource = getResources().openRawResource(R.raw.user_avatar);
         Bitmap bitmap = BitmapFactory.decodeStream(resource);
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -301,6 +303,20 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     }
 
     @Override
+    public void initDrawer(UserInfoDto userInfoDto) {
+        View header = mNavigationView.getHeaderView(0);
+        ImageView avatar = (ImageView) header.findViewById(R.id.drawer_user_avatar);
+        TextView username = (TextView) header.findViewById(R.id.drawer_user_name);
+
+        mPicasso.load(userInfoDto.getAvatar())
+                .fit()
+                .centerCrop()
+                .into(avatar);
+
+        username.setText(userInfoDto.getName());
+    }
+
+    @Override
     public boolean viewOnBackPressed() {
         return false;
     }
@@ -316,6 +332,9 @@ public class RootActivity extends AppCompatActivity implements IRootView,
         void inject(RootActivity activity);
         void inject(SplashActivity activity);
 
+        void inject(RootPresenter presenter);
+
+        AccountModel getAccountModel();
         RootPresenter getRootPresenter();
         Picasso getPicasso();
     }
