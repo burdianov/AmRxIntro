@@ -139,12 +139,12 @@ public class DataManager {
         return mUserSettings;
     }
 
-    public void saveProfileInfo(String name, String phone) {
+    public void saveProfileInfo(String name, String phone, String avatar) {
         // TODO: 29-Nov-16 implement method
     }
 
     public void saveAvatarPhoto(Uri photoUri) {
-        mPreferencesManager.saveAvatar(photoUri.toString());
+//        mPreferencesManager.saveAvatar(photoUri.toString());
     }
 
     public void saveSetting(String notificationKey, boolean isChecked) {

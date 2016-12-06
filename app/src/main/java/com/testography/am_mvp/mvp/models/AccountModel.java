@@ -1,20 +1,28 @@
 package com.testography.am_mvp.mvp.models;
 
-import android.net.Uri;
-
 import com.testography.am_mvp.data.storage.dto.UserAddressDto;
-import com.testography.am_mvp.data.storage.dto.UserDto;
+import com.testography.am_mvp.data.storage.dto.UserInfoDto;
 import com.testography.am_mvp.data.storage.dto.UserSettingsDto;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 import rx.Observable;
+import rx.subjects.BehaviorSubject;
 
 import static com.testography.am_mvp.data.managers.PreferencesManager.NOTIFICATION_ORDER_KEY;
 import static com.testography.am_mvp.data.managers.PreferencesManager.NOTIFICATION_PROMO_KEY;
+import static com.testography.am_mvp.data.managers.PreferencesManager.PROFILE_AVATAR_KEY;
+import static com.testography.am_mvp.data.managers.PreferencesManager.PROFILE_FULL_NAME_KEY;
+import static com.testography.am_mvp.data.managers.PreferencesManager.PROFILE_PHONE_KEY;
 
 public class AccountModel extends AbstractModel {
+
+    private BehaviorSubject<UserInfoDto> mUserInfoObs = BehaviorSubject.create();
+
+    public AccountModel() {
+        mUserInfoObs.onNext(getUserProfileInfo());
+    }
 
     //region ==================== Addresses ===================
 
@@ -59,35 +67,24 @@ public class AccountModel extends AbstractModel {
 
     //endregion
 
-    public UserDto getUserDto() {
-        return null;
-//        return new UserDto(getUserProfileInfo(), getUserAddresses(), getUserSettings());
+    //region ==================== User ===================
+
+    public void saveProfileInfo(UserInfoDto userInfo) {
+        mDataManager.saveProfileInfo(userInfo.getName(), userInfo.getPhone(),
+                userInfo.getAvatar());
     }
 
-    private Map<String, String> getUserProfileInfo() {
-        return mDataManager.getUserProfileInfo();
+    public UserInfoDto getUserProfileInfo() {
+        Map<String, String> map = mDataManager.getUserProfileInfo();
+        return new UserInfoDto(
+                map.get(PROFILE_FULL_NAME_KEY),
+                map.get(PROFILE_PHONE_KEY),
+                map.get(PROFILE_AVATAR_KEY));
     }
 
-    public void saveProfileInfo(String name, String phone) {
-        mDataManager.saveProfileInfo(name, phone);
+    public Observable<UserInfoDto> getUserInfoObs() {
+        return mUserInfoObs;
     }
 
-    public void saveAvatarPhoto(Uri photoUri) {
-        mDataManager.saveAvatarPhoto(photoUri);
-    }
-
-    public void savePromoNotification(boolean isChecked) {
-        mDataManager.saveSetting(NOTIFICATION_PROMO_KEY, isChecked);
-    }
-
-    public void saveOrderNotification(boolean isChecked) {
-        mDataManager.saveSetting(NOTIFICATION_ORDER_KEY,
-                isChecked);
-    }
-
-    public void addAddress(UserAddressDto userAddressDto) {
-        mDataManager.addAddress(userAddressDto);
-    }
-
-    // TODO: 29-Nov-16 remove address
+    //endregion
 }

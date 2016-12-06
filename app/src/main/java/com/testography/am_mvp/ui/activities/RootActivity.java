@@ -1,26 +1,20 @@
 package com.testography.am_mvp.ui.activities;
 
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -49,15 +43,11 @@ import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.mvp.views.IView;
 import com.testography.am_mvp.ui.screens.account.AccountScreen;
 import com.testography.am_mvp.ui.screens.catalog.CatalogScreen;
-import com.testography.am_mvp.utils.ConstantsManager;
 import com.testography.am_mvp.utils.RoundedAvatarDrawable;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -314,6 +304,7 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     public boolean viewOnBackPressed() {
         return false;
     }
+
     //endregion
 
     //region ==================== DI ===================
@@ -323,115 +314,22 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     @RootScope
     public interface RootComponent {
         void inject(RootActivity activity);
-
         void inject(SplashActivity activity);
 
         RootPresenter getRootPresenter();
-
         Picasso getPicasso();
     }
     //endregion
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        switch (requestCode) {
-            case ConstantsManager.REQUEST_GALLERY_PICTURE:
-                if (resultCode == RESULT_OK && data != null) {
-                    mSelectedImage = data.getData();
-                }
-                break;
-            case ConstantsManager.REQUEST_CAMERA_PICTURE:
-                if (resultCode == RESULT_OK && mPhotoFile != null) {
-                    mSelectedImage = Uri.fromFile(mPhotoFile);
-                }
-        }
+        super.onActivityResult(requestCode, resultCode, data);
+        mRootPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == ConstantsManager.CAMERA_REQUEST_PERMISSION_CODE &&
-                grantResults.length == 2) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            }
-        }
-        if (grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-            // TODO: process other permission
-
-        } else {
-
-        }
-    }
-
-    @Override
-    public void loadPhotoFromGallery() {
-
-        Intent takeGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-        takeGalleryIntent.setType("image/*");
-        startActivityForResult(Intent.createChooser(takeGalleryIntent, getString
-                (R.string.pick_a_photo)), ConstantsManager.REQUEST_GALLERY_PICTURE);
-    }
-
-    @Override
-    public void loadPhotoFromCamera() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission
-                .CAMERA) == PackageManager.PERMISSION_GRANTED && ContextCompat
-                .checkSelfPermission(this, android.Manifest.permission
-                        .WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-
-            Intent takeCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            try {
-                mPhotoFile = createImageFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if (mPhotoFile != null) {
-                takeCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile
-                        (mPhotoFile));
-                startActivityForResult(takeCaptureIntent,
-                        ConstantsManager.REQUEST_CAMERA_PICTURE);
-            }
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{
-                    android.Manifest.permission.CAMERA,
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            }, ConstantsManager.CAMERA_REQUEST_PERMISSION_CODE);
-
-//            Snackbar.make(mCoordinatorLayout, "In order for application to " +
-//                            "function properly, please set the necessary rights",
-//                    Snackbar.LENGTH_LONG).setAction("Allow", new View
-//                    .OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    openApplicationSettings();
-//                }
-//            }).show();
-        }
-    }
-
-    public Uri getPhoto() {
-        return mSelectedImage;
-    }
-
-    private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new
-                Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory
-                (Environment.DIRECTORY_PICTURES);
-
-        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
-        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-        values.put(MediaStore.MediaColumns.DATA, image.getAbsolutePath());
-
-        this.getContentResolver().insert(MediaStore.Images.Media
-                .EXTERNAL_CONTENT_URI, values);
-        return image;
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mRootPresenter.onRequestPermissionResult(requestCode, permissions, grantResults);
     }
 }

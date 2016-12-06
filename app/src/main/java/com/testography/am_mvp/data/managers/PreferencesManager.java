@@ -37,11 +37,11 @@ public class PreferencesManager {
         editor.apply();
     }
 
-    void saveAvatar(String avatar) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(PROFILE_AVATAR_KEY, avatar);
-        editor.apply();
-    }
+//    void saveAvatar(String avatar) {
+//        SharedPreferences.Editor editor = mSharedPreferences.edit();
+//        editor.putString(PROFILE_AVATAR_KEY, avatar);
+//        editor.apply();
+//    }
 
     String checkAvatar() {
         String avatar;

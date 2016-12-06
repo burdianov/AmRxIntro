@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -150,21 +149,6 @@ public class SplashActivity extends AppCompatActivity implements IRootView {
     @Override
     public IView getCurrentScreen() {
         return (IView) mRootFrame.getChildAt(0);
-    }
-
-    @Override
-    public void loadPhotoFromCamera() {
-
-    }
-
-    @Override
-    public void loadPhotoFromGallery() {
-
-    }
-
-    @Override
-    public Uri getPhoto() {
-        return null;
     }
 
     // TODO: 25-Nov-16 Resolve the commented methods

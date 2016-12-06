@@ -1,7 +1,7 @@
 package com.testography.am_mvp.ui.screens.account;
 
 import android.content.Context;
-import android.content.DialogInterface;
+import android.net.Uri;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,10 +18,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.R;
 import com.testography.am_mvp.data.storage.dto.UserDto;
+import com.testography.am_mvp.data.storage.dto.UserInfoDto;
 import com.testography.am_mvp.data.storage.dto.UserSettingsDto;
 import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.mvp.views.IAccountView;
@@ -66,6 +66,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     private UserDto mUserDto;
     private TextWatcher mWatcher;
     private AddressesAdapter mAdapter;
+    private Uri mAvatarUri;
 
     public AccountView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -113,7 +114,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     //endregion
 
     public void initView() {
-        //showViewFromState();
+        showViewFromState();
 
         mAdapter = new AddressesAdapter();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -123,12 +124,6 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         mAddressList.setVisibility(VISIBLE);
 
         initSwipe();
-
-//        mUserDto = user;
-//        initProfileInfo();
-//        initList();
-//        initSettings();
-//        showViewFromState();
     }
 
     public void initSettings(UserSettingsDto settings) {
@@ -178,29 +173,6 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
                 .show();
     }
 
-    private void initList() {
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-//        mAddressList.setLayoutManager(layoutManager);
-//        mAddressList.setVisibility(VISIBLE);
-
-//        ArrayList<UserAddressDto> userAddresses = mUserDto.getUserAddresses();
-//        mAdapter = new AddressesAdapter(userAddresses);
-//        mAddressList.setAdapter(mAdapter);
-//
-//        SimpleTouchCallback callback = new SimpleTouchCallback(mAdapter);
-//        ItemTouchHelper helper = new ItemTouchHelper(callback);
-//        helper.attachToRecyclerView(mAddressList);
-    }
-
-    private void initProfileInfo() {
-        profileNameTxt.setText(mUserDto.getFullname());
-        userFullNameEt.setText(mUserDto.getFullname());
-        userPhoneEt.setText(mUserDto.getPhone());
-        mPicasso.load(mUserDto.getAvatar())
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .into(mUserAvatarImg);
-    }
-
     //region ==================== IAccountView ===================
     @Override
     public void changeState() {
@@ -235,7 +207,6 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         userPhoneEt.setEnabled(true);
         mPicasso.load(R.drawable.ic_add_white_24dp)
                 .error(R.drawable.ic_add_white_24dp)
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .into(mUserAvatarImg);
     }
 
@@ -244,9 +215,9 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         profileNameWrapper.setVisibility(GONE);
         userPhoneEt.setEnabled(false);
         userFullNameEt.removeTextChangedListener(mWatcher);
-        mPicasso.load(mUserDto.getAvatar())
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .into(mUserAvatarImg);
+        if (mAvatarUri != null) {
+            insertAvatar();
+        }
     }
 
     @Override
@@ -255,23 +226,15 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
 
         alertDialog.setTitle(R.string.change_photo);
-        alertDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
-        alertDialog.setItems(source, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                switch (i) {
-                    case 0:
-                        mPresenter.chooseGallery();
-                        break;
-                    case 1:
-                        mPresenter.chooseCamera();
-                        break;
-                }
+        alertDialog.setNegativeButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel());
+        alertDialog.setItems(source, (dialogInterface, i) -> {
+            switch (i) {
+                case 0:
+                    mPresenter.chooseGallery();
+                    break;
+                case 1:
+                    mPresenter.chooseCamera();
+                    break;
             }
         });
         alertDialog.show();
@@ -290,12 +253,46 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     @Override
     public boolean viewOnBackPressed() {
         if (mScreen.getCustomState() == EDIT_STATE) {
-            changeState();
+            mPresenter.switchViewState();
             return true;
         } else {
             return false;
         }
     }
+
+    public UserSettingsDto getSettings() {
+        return new UserSettingsDto(notificationOrderSw.isChecked(),
+                notificationPromoSw.isChecked());
+    }
+
+    public void updateAvatarPhoto(Uri uri) {
+        mAvatarUri = uri;
+
+        insertAvatar();
+    }
+
+    private void insertAvatar() {
+        mPicasso.load(mAvatarUri)
+                .resize(140, 140)
+                .centerCrop()
+                .into(mUserAvatarImg);
+    }
+
+    public UserInfoDto getUserProfileInfo() {
+        return new UserInfoDto(userFullNameEt.getText().toString(), userPhoneEt
+                .getText().toString(), String.valueOf(mAvatarUri.toString()));
+    }
+
+    public void updateProfileInfo(UserInfoDto userInfoDto) {
+        profileNameTxt.setText(userInfoDto.getName());
+        userFullNameEt.setText(userInfoDto.getName());
+        userPhoneEt.setText(userInfoDto.getPhone());
+        if (mScreen.getCustomState() == PREVIEW_STATE) {
+            mAvatarUri = Uri.parse(userInfoDto.getAvatar());
+            insertAvatar();
+        }
+    }
+
     //endregion
 
     //region ==================== Events ===================
@@ -315,11 +312,6 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         if (mScreen.getCustomState() == EDIT_STATE) {
             mPresenter.takePhoto();
         }
-    }
-
-    public UserSettingsDto getSettings() {
-        return new UserSettingsDto(notificationOrderSw.isChecked(),
-                notificationPromoSw.isChecked());
     }
 
     //endregion
