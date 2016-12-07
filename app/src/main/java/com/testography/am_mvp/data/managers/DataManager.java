@@ -47,7 +47,7 @@ public class DataManager {
                 "Hogan");
         String avatar = mPreferencesManager.checkAvatar();
         Log.e("pppppppp", "initMockUserData: " + avatar);
-        if (avatar == "null") {
+        if (avatar.equals("null")) {
             avatar = "http://a1.files.biography.com/image/upload/c_fill,cs_srgb," +
                     "dpr_1.0,g_face,h_300,q_80,w_300/MTIwNjA4NjM0MDQyNzQ2Mzgw.jpg";
         }

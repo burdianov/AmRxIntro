@@ -253,7 +253,7 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
                 if (mRootPresenter.checkPermissionsAndRequestIfNotGranted
                         (permissions, ConstantsManager.REQUEST_PERMISSION_CAMERA)) {
                     mPhotoFile = createFileForPhoto();
-                    if (mPhotoFile == null) {
+                    if (mPhotoFile == null & getRootView() != null) {
                         getRootView().showMessage("The picture cannot be created");
                         return;
                     }
@@ -267,9 +267,11 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
                     getRootView()), ConstantsManager.FILE_PROVIDER_AUTHORITY, mPhotoFile);
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriForFile);
-            ((RootActivity) getRootView()).startActivityForResult
-                    (takePictureIntent, ConstantsManager
-                            .REQUEST_PROFILE_PHOTO_CAMERA);
+            if (getRootView() != null) {
+                ((RootActivity) getRootView()).startActivityForResult
+                        (takePictureIntent, ConstantsManager
+                                .REQUEST_PROFILE_PHOTO_CAMERA);
+            }
         }
 
         private File createFileForPhoto() {
@@ -312,8 +314,10 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
                 intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
             }
-            ((RootActivity) getRootView()).startActivityForResult(intent,
-                    ConstantsManager.REQUEST_PROFILE_PHOTO_PICKER);
+            if (getRootView() != null) {
+                ((RootActivity) getRootView()).startActivityForResult(intent,
+                        ConstantsManager.REQUEST_PROFILE_PHOTO_PICKER);
+            }
         }
 
         //endregion

@@ -83,7 +83,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/grey"
-                        android:textSize="@dimen/size_small_16"
+                        android:textSize="@dimen/font_normal_16"
                         android:textColor="@color/account_title_color"
                         android:enabled="false"
                         android:focusable="false"

@@ -53,7 +53,7 @@
                             android:id="@+id/address_name_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/size_small_16"
+                            android:textSize="@dimen/font_normal_16"
                             android:hint="@string/location_label"
                             android:inputType="textVisiblePassword"
                             android:textColorHint="@color/color_grey_darker"/>
@@ -97,7 +97,7 @@
                             android:id="@+id/street_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/size_small_16"
+                            android:textSize="@dimen/font_normal_16"
                             android:hint="@string/street"
                             android:inputType="textVisiblePassword"
                             android:textColorHint="@color/color_grey_darker"/>
@@ -132,7 +132,7 @@
                             android:id="@+id/number_building_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/size_small_16"
+                            android:textSize="@dimen/font_normal_16"
                             android:hint="@string/hint_building"
                             android:inputType="textVisiblePassword"
                             android:textColorHint="@color/color_grey_darker"/>
@@ -160,7 +160,7 @@
                             android:id="@+id/number_apartment_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/size_small_16"
+                            android:textSize="@dimen/font_normal_16"
                             android:hint="@string/hint_apartment"
                             android:inputType="textVisiblePassword"
                             android:textColorHint="@color/color_grey_darker"/>
@@ -188,7 +188,7 @@
                             android:id="@+id/number_floor_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/size_small_16"
+                            android:textSize="@dimen/font_normal_16"
                             android:hint="@string/hint_floor"
                             android:inputType="numberDecimal"
                             android:textColorHint="@color/color_grey_darker"/>
