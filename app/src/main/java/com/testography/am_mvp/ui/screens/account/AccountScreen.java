@@ -93,7 +93,6 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
     }
     //endregion
 
-
     //region ==================== Presenter ===================
     public class AccountPresenter extends SubscribePresenter<AccountView> implements
             IAccountPresenter {
@@ -111,7 +110,6 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
         private File mPhotoFile;
         private Subscription mActivityResultSub;
         private Subscription mUserInfoSub;
-
 
         //region ==================== Lifecycle ===================
 

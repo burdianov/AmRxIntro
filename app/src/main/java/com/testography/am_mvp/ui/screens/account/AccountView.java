@@ -280,7 +280,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
 
     public UserInfoDto getUserProfileInfo() {
         return new UserInfoDto(userFullNameEt.getText().toString(), userPhoneEt
-                .getText().toString(), String.valueOf(mAvatarUri.getPath()));
+                .getText().toString(), String.valueOf(mAvatarUri));
     }
 
     public void updateProfileInfo(UserInfoDto userInfoDto) {

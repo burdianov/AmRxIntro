@@ -34,6 +34,7 @@ public class AddressScreen extends AbstractScreen<AccountScreen.Component>
 
     @Override
     public boolean equals(Object o) {
+
         if (mAddressDto != null) {
             return o instanceof AddressPresenter && mAddressDto.equals((
                     (AddressScreen) o).mAddressDto);
@@ -95,7 +96,7 @@ public class AddressScreen extends AbstractScreen<AccountScreen.Component>
         @Override
         protected void onLoad(Bundle savedInstanceState) {
             super.onLoad(savedInstanceState);
-            if (mAddressDto != null & getView() != null) {
+            if (mAddressDto != null && getView() != null) {
                 getView().initView(mAddressDto);
             }
         }
