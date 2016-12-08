@@ -56,11 +56,11 @@ public class DataManager {
 
         mUserAddresses = new ArrayList<>();
         UserAddressDto userAddress;
-        userAddress = new UserAddressDto(3, "Home", "Airport Road", "24", "56",
+        userAddress = new UserAddressDto(1, "Home", "Airport Road", "24", "56",
                 9, "Beware of crazy dogs");
         mUserAddresses.add(userAddress);
 
-        userAddress = new UserAddressDto(5, "Work", "Central Park", "123", "67",
+        userAddress = new UserAddressDto(2, "Work", "Central Park", "123", "67",
                 2, "In the middle of nowhere");
         mUserAddresses.add(userAddress);
 

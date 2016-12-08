@@ -81,7 +81,7 @@ public class AddressView extends RelativeLayout implements IAddressView {
             mStreetEt.setText(address.getStreet());
             mNumberBuildingEt.setText(address.getBuilding());
             mNumberApartmentEt.setText(address.getApartment());
-            mNumberFloor.setText(address.getFloor());
+            mNumberFloor.setText(String.valueOf(address.getFloor()));
             mCommentEt.setText(address.getComment());
             mAddBtn.setText(R.string.save);
         }

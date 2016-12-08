@@ -253,7 +253,7 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
                 if (mRootPresenter.checkPermissionsAndRequestIfNotGranted
                         (permissions, ConstantsManager.REQUEST_PERMISSION_CAMERA)) {
                     mPhotoFile = createFileForPhoto();
-                    if (mPhotoFile == null & getRootView() != null) {
+                    if (mPhotoFile == null && getRootView() != null) {
                         getRootView().showMessage("The picture cannot be created");
                         return;
                     }
@@ -277,7 +277,8 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
         private File createFileForPhoto() {
             DateFormat dateTimeInstance = SimpleDateFormat.getTimeInstance(MEDIUM);
             String timeStamp = dateTimeInstance.format(new Date());
-            String imageFileName = ConstantsManager.PHOTO_FILE_PREFIX + timeStamp;
+            String imageFileName = ConstantsManager.PHOTO_FILE_PREFIX + timeStamp
+                    .replace(" ", "_");
             File storageDir = getView().getContext().getExternalFilesDir(DIRECTORY_PICTURES);
             File fileImage;
             try {

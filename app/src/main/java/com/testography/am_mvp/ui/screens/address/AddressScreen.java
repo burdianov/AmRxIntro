@@ -36,7 +36,7 @@ public class AddressScreen extends AbstractScreen<AccountScreen.Component>
     public boolean equals(Object o) {
 
         if (mAddressDto != null) {
-            return o instanceof AddressPresenter && mAddressDto.equals((
+            return o instanceof AddressScreen && mAddressDto.equals((
                     (AddressScreen) o).mAddressDto);
         } else {
             return super.equals(o);

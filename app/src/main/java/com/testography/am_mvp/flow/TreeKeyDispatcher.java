@@ -35,7 +35,8 @@ public class TreeKeyDispatcher extends KeyChanger implements Dispatcher {
     }
 
     @Override
-    public void dispatch(@NonNull Traversal traversal, @NonNull TraversalCallback callback) {
+    public void dispatch(@NonNull Traversal traversal,
+                         @NonNull TraversalCallback callback) {
         Map<Object, Context> contexts;
         State inState = traversal.getState(traversal.destination.top());
         inKey = inState.getKey();
@@ -63,7 +64,10 @@ public class TreeKeyDispatcher extends KeyChanger implements Dispatcher {
 
     @Override
     public void changeKey(@Nullable State outgoingState,
-                          @NonNull State incomingState, @NonNull Direction direction, @NonNull Map<Object, Context> incomingContexts, @NonNull TraversalCallback callback) {
+                          @NonNull State incomingState,
+                          @NonNull Direction direction,
+                          @NonNull Map<Object, Context> incomingContexts,
+                          @NonNull TraversalCallback callback) {
 
         Context context = incomingContexts.get(inKey);
 
