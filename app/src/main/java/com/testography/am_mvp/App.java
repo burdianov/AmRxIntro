@@ -17,6 +17,7 @@ import com.testography.am_mvp.ui.activities.RootActivity;
 
 import mortar.MortarScope;
 import mortar.bundler.BundleServiceRunner;
+import timber.log.Timber;
 
 public class App extends Application {
     private static SharedPreferences sSharedPreferences;
@@ -40,6 +41,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Timber.plant(new Timber.DebugTree());
+
         createAppComponent();
         createRootActivityComponent();
 
