@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import rx.Observable;
-import rx.subjects.PublishSubject;
+import rx.subjects.BehaviorSubject;
 
 import static com.testography.am_mvp.data.managers.PreferencesManager.NOTIFICATION_ORDER_KEY;
 import static com.testography.am_mvp.data.managers.PreferencesManager.NOTIFICATION_PROMO_KEY;
@@ -18,7 +18,8 @@ import static com.testography.am_mvp.data.managers.PreferencesManager.PROFILE_PH
 
 public class AccountModel extends AbstractModel {
 
-    private PublishSubject<UserInfoDto> mUserInfoObs = PublishSubject.create();
+    //    private PublishSubject<UserInfoDto> mUserInfoObs = PublishSubject.create();
+    private BehaviorSubject<UserInfoDto> mUserInfoObs = BehaviorSubject.create();
 
     public AccountModel() {
         mUserInfoObs.onNext(getUserProfileInfo());

@@ -119,7 +119,6 @@ public class RootActivity extends AppCompatActivity implements IRootView,
         rootComponent.inject(this);
 
         initToolbar();
-
         initExitDialog();
 
         mRootPresenter.takeView(this);
