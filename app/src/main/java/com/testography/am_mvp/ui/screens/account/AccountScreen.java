@@ -144,11 +144,9 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
             mActivityResultSub.unsubscribe();
             super.onExitScope();
         }
-
         //endregion
 
         //region ==================== Subscription ===================
-
         private void subscribeOnAddressesObs() {
 
             mAddressSub = subscribe(mAccountModel.getAddressObs(), new
@@ -219,7 +217,6 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
                 }
             });
         }
-
         //endregion
 
         @Override
@@ -244,7 +241,6 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
         }
 
         //region ==================== CAMERA ===================
-
         @Override
         public void chooseCamera() {
             if (getView() != null) {
@@ -288,11 +284,9 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
             }
             return fileImage;
         }
-
         //endregion
 
         //region ==================== GALLERY ===================
-
         @Override
         public void chooseGallery() {
             if (getView() != null) {
@@ -320,7 +314,6 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
                         ConstantsManager.REQUEST_PROFILE_PHOTO_PICKER);
             }
         }
-
         //endregion
 
         @Override

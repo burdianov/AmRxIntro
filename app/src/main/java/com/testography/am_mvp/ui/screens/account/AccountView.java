@@ -120,7 +120,6 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mAddressList.setLayoutManager(layoutManager);
         mAddressList.setAdapter(mAdapter);
-
         mAddressList.setVisibility(VISIBLE);
 
         initSwipe();

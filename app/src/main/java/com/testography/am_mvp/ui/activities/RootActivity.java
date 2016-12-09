@@ -2,7 +2,6 @@ package com.testography.am_mvp.ui.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -156,17 +155,9 @@ public class RootActivity extends AppCompatActivity implements IRootView,
                 .setTitle(R.string.close_app)
                 .setMessage(R.string.are_you_sure)
                 .setPositiveButton(R.string.yes,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        })
+                        (dialog, which) -> finish())
                 .setNegativeButton(R.string.no,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
+                        (dialog, which) -> {
                         });
     }
 
@@ -177,27 +168,6 @@ public class RootActivity extends AppCompatActivity implements IRootView,
             super.onBackPressed();
         }
     }
-
-//    @Override
-//    public void onBackPressed() {
-//        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-//            mDrawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            if (mFragmentManager.getBackStackEntryCount() == 0) {
-//                exitDialog.show();
-//            } else {
-//                super.onBackPressed();
-//                int activeItem = 0;
-//                mNavSet.remove(mNavSet.size() - 1);
-//                if (mNavSet.size() > 0) {
-//                    activeItem = mNavSet.get(mNavSet.size() - 1);
-//                } else if (mNavSet.size() == 0) {
-//                    activeItem = 1;
-//                }
-//                mNavigationView.getMenu().getItem(activeItem).setChecked(true);
-//            }
-//        }
-//    }
 
     private void initToolbar() {
         setSupportActionBar(mToolbar);

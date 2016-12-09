@@ -2,7 +2,6 @@ package com.testography.am_mvp.data.managers;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 
 import com.testography.am_mvp.App;
 import com.testography.am_mvp.R;
@@ -24,6 +23,10 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import static com.testography.am_mvp.data.managers.PreferencesManager.PROFILE_AVATAR_KEY;
+import static com.testography.am_mvp.data.managers.PreferencesManager.PROFILE_FULL_NAME_KEY;
+import static com.testography.am_mvp.data.managers.PreferencesManager.PROFILE_PHONE_KEY;
+
 public class DataManager {
 
     @Inject
@@ -43,16 +46,12 @@ public class DataManager {
     private void initMockUserData() {
         mUserProfileInfo = new HashMap<>();
 
-        mUserProfileInfo.put(PreferencesManager.PROFILE_FULL_NAME_KEY, "Hulk " +
+        mUserProfileInfo.put(PROFILE_FULL_NAME_KEY, "Hulk " +
                 "Hogan");
-        String avatar = mPreferencesManager.checkAvatar();
-        Log.e("pppppppp", "initMockUserData: " + avatar);
-        if (avatar.equals("null")) {
-            avatar = "http://a1.files.biography.com/image/upload/c_fill,cs_srgb," +
-                    "dpr_1.0,g_face,h_300,q_80,w_300/MTIwNjA4NjM0MDQyNzQ2Mzgw.jpg";
-        }
-        mUserProfileInfo.put(PreferencesManager.PROFILE_AVATAR_KEY, avatar);
-        mUserProfileInfo.put(PreferencesManager.PROFILE_PHONE_KEY, "334-29-3093");
+        mUserProfileInfo.put(PROFILE_AVATAR_KEY,
+                "http://a1.files.biography.com/image/upload/c_fill,cs_srgb," +
+                        "dpr_1.0,g_face,h_300,q_80,w_300/MTIwNjA4NjM0MDQyNzQ2Mzgw.jpg");
+        mUserProfileInfo.put(PROFILE_PHONE_KEY, "334-29-3093");
 
         mUserAddresses = new ArrayList<>();
         UserAddressDto userAddress;
@@ -140,7 +139,10 @@ public class DataManager {
     }
 
     public void saveProfileInfo(String name, String phone, String avatar) {
-        // TODO: 29-Nov-16 implement method
+        mUserProfileInfo.put(PROFILE_FULL_NAME_KEY, name);
+        mUserProfileInfo.put(PROFILE_AVATAR_KEY, avatar);
+        mUserProfileInfo.put(PROFILE_PHONE_KEY, phone);
+
     }
 
     public void saveAvatarPhoto(Uri photoUri) {
