@@ -95,13 +95,23 @@ public class AddressView extends RelativeLayout implements IAddressView {
     @Override
     public UserAddressDto getUserAddress() {
         return new UserAddressDto(mAddressId,
-                mAddressNameEt.getText().toString(),
-                mStreetEt.getText().toString(),
-                mNumberBuildingEt.getText().toString(),
-                mNumberApartmentEt.getText().toString(),
-                Integer.parseInt(mNumberFloor.getText().toString()),
-                mCommentEt.getText().toString()
+                validateString(mAddressNameEt),
+                validateString(mStreetEt),
+                validateString(mNumberBuildingEt),
+                validateString(mNumberApartmentEt),
+                validateInteger(mNumberFloor),
+                validateString(mCommentEt)
         );
+    }
+
+    private String validateString(EditText editText) {
+        return editText.getText().toString().equals("") ? "Blank" : editText
+                .getText().toString();
+    }
+
+    private int validateInteger(EditText editText) {
+        return editText.getText().toString().equals("") ? 0 : Integer.parseInt
+                (editText.getText().toString());
     }
 
     @Override

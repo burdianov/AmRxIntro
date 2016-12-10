@@ -51,7 +51,7 @@ public class DataManager {
         mUserProfileInfo.put(PROFILE_AVATAR_KEY,
                 "http://a1.files.biography.com/image/upload/c_fill,cs_srgb," +
                         "dpr_1.0,g_face,h_300,q_80,w_300/MTIwNjA4NjM0MDQyNzQ2Mzgw.jpg");
-        mUserProfileInfo.put(PROFILE_PHONE_KEY, "334-29-3093");
+        mUserProfileInfo.put(PROFILE_PHONE_KEY, "+7(917)971-38-27");
 
         mUserAddresses = new ArrayList<>();
         UserAddressDto userAddress;
