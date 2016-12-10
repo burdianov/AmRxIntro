@@ -1,6 +1,7 @@
 package com.testography.am_mvp.ui.screens.auth;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
@@ -21,6 +22,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import flow.Flow;
+
+import static com.testography.am_mvp.utils.ConstantsManager.CUSTOM_FONTS_ROOT;
+import static com.testography.am_mvp.utils.ConstantsManager.CUSTOM_FONT_NAME;
 
 public class AuthView extends RelativeLayout implements IAuthView {
 
@@ -187,7 +191,8 @@ public class AuthView extends RelativeLayout implements IAuthView {
 
     @Override
     public void setTypeface() {
-
+        mAppNameTxt.setTypeface(Typeface.createFromAsset(getContext().getAssets(),
+                CUSTOM_FONTS_ROOT + CUSTOM_FONT_NAME));
     }
 
     @Override
