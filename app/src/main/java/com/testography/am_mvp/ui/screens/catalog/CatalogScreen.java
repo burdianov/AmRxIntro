@@ -74,6 +74,7 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
         @Inject
         CatalogModel mCatalogModel;
 
+        //region ==================== Lifecycle ===================
         @Override
         protected void onEnterScope(MortarScope scope) {
             super.onEnterScope(scope);
@@ -88,6 +89,7 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
                 getView().showCatalogView(mCatalogModel.getProductList());
             }
         }
+        //endregion
 
         @Override
         public void clickOnBuyButton(int position) {

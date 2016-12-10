@@ -104,7 +104,6 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
         @Inject
         AccountModel mAccountModel;
 
-        private Uri mAvatarUri;
         private Subscription mAddressSub;
         private Subscription mSettingsSub;
         private File mPhotoFile;
