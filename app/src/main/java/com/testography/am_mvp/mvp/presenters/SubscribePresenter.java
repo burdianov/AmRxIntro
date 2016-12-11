@@ -23,7 +23,7 @@ public abstract class SubscribePresenter<V extends ViewGroup> extends
     protected abstract class ViewSubscriber<T> extends Subscriber<T> {
         @Override
         public void onCompleted() {
-            Log.d(TAG, "onComplete ovservable ");
+            Log.d(TAG, "onComplete observable");
         }
 
         @Override

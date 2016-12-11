@@ -4,16 +4,29 @@ import com.testography.am_mvp.data.storage.dto.ProductDto;
 
 import java.util.List;
 
+import rx.Observable;
+import rx.subjects.BehaviorSubject;
+
 public class CatalogModel extends AbstractModel {
-//    DataManager mDataManager = DataManager.getInstance();
+
+    private BehaviorSubject<List<ProductDto>> mProductListObs = BehaviorSubject
+            .create();
 
     public CatalogModel() {
+        mProductListObs.onNext(getProductList());
+    }
 
+    //region ==================== Products ===================
+
+    public Observable<List<ProductDto>> getProductListObs() {
+        return mProductListObs;
     }
 
     public List<ProductDto> getProductList() {
         return mDataManager.getProductList();
     }
+
+    //endregion
 
     public boolean isUserAuth() {
         return mDataManager.isAuthUser();

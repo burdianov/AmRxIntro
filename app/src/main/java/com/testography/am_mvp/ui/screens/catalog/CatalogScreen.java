@@ -14,17 +14,20 @@ import com.testography.am_mvp.flow.Screen;
 import com.testography.am_mvp.mvp.models.CatalogModel;
 import com.testography.am_mvp.mvp.presenters.ICatalogPresenter;
 import com.testography.am_mvp.mvp.presenters.RootPresenter;
+import com.testography.am_mvp.mvp.presenters.SubscribePresenter;
 import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.ui.activities.RootActivity;
 import com.testography.am_mvp.ui.screens.auth.AuthScreen;
 import com.testography.am_mvp.ui.screens.product.ProductScreen;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.Provides;
 import flow.Flow;
 import mortar.MortarScope;
-import mortar.ViewPresenter;
+import rx.Subscription;
 
 @Screen(R.layout.screen_catalog)
 public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
@@ -38,6 +41,7 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
     }
 
     //region ==================== DI ===================
+
     @dagger.Module
     public class Module {
         @Provides
@@ -58,21 +62,27 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
     @CatalogScope
     public interface Component {
         void inject(CatalogPresenter presenter);
+
         void inject(CatalogView view);
 
         CatalogModel getCatalogModel();
+
         Picasso getPicasso();
     }
+
     //endregion
 
     //region ==================== Presenter ===================
-    public class CatalogPresenter extends ViewPresenter<CatalogView> implements
+
+    public class CatalogPresenter extends SubscribePresenter<CatalogView> implements
             ICatalogPresenter {
 
         @Inject
         RootPresenter mRootPresenter;
         @Inject
         CatalogModel mCatalogModel;
+
+        private Subscription mProductListSub;
 
         //region ==================== Lifecycle ===================
         @Override
@@ -85,10 +95,32 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
         protected void onLoad(Bundle savedInstanceState) {
             super.onLoad(savedInstanceState);
 
-            if (getView() != null) {
-                getView().showCatalogView(mCatalogModel.getProductList());
-            }
+            subscribeOnProductListObs();
         }
+
+        @Override
+        protected void onSave(Bundle outState) {
+            super.onSave(outState);
+            mProductListSub.unsubscribe();
+        }
+
+        //endregion
+
+        //region ==================== Subscription ===================
+
+        private void subscribeOnProductListObs() {
+
+            mProductListSub = subscribe(mCatalogModel.getProductListObs(), new
+                    ViewSubscriber<List<ProductDto>>() {
+                        @Override
+                        public void onNext(List<ProductDto> productList) {
+                            if (getView() != null) {
+                                getView().showCatalogView(productList);
+                            }
+                        }
+                    });
+        }
+
         //endregion
 
         @Override
@@ -114,6 +146,7 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
             return mCatalogModel.isUserAuth();
         }
     }
+
     //endregion
 
     public static class Factory {

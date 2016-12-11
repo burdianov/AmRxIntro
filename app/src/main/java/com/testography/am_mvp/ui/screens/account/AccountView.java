@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.R;
-import com.testography.am_mvp.data.storage.dto.UserDto;
 import com.testography.am_mvp.data.storage.dto.UserInfoDto;
 import com.testography.am_mvp.data.storage.dto.UserSettingsDto;
 import com.testography.am_mvp.di.DaggerService;
@@ -63,7 +62,6 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     SwitchCompat notificationPromoSw;
 
     private AccountScreen mScreen;
-    private UserDto mUserDto;
     private TextWatcher mWatcher;
     private AddressesAdapter mAdapter;
     private Uri mAvatarUri;
@@ -82,6 +80,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     }
 
     //region ==================== flow view lifecycle callbacks ===================
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -111,6 +110,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
             mPresenter.dropView(this);
         }
     }
+
     //endregion
 
     public void initView() {
@@ -173,6 +173,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     }
 
     //region ==================== IAccountView ===================
+
     @Override
     public void changeState() {
         if (mScreen.getCustomState() == PREVIEW_STATE) {

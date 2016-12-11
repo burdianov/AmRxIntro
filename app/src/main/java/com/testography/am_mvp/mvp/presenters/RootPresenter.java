@@ -13,7 +13,6 @@ import com.testography.am_mvp.data.storage.dto.UserInfoDto;
 import com.testography.am_mvp.mvp.models.AccountModel;
 import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.ui.activities.RootActivity;
-import com.testography.am_mvp.utils.ConstantsManager;
 
 import javax.inject.Inject;
 
@@ -99,17 +98,5 @@ public class RootPresenter extends AbstractPresenter<IRootView> {
     public void onRequestPermissionResult(int requestCode, @NonNull String[]
             permissions, @NonNull int[] grantResults) {
 
-        if (requestCode == ConstantsManager.REQUEST_PERMISSION_CAMERA &&
-                grantResults.length == 2) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            }
-        }
-        if (grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-            // TODO: process other permission
-
-        } else {
-
-        }
     }
 }

@@ -26,6 +26,7 @@ public class AccountModel extends AbstractModel {
     }
 
     //region ==================== Addresses ===================
+
     public Observable<UserAddressDto> getAddressObs() {
         return Observable.from(getUserAddresses());
     }
@@ -45,9 +46,11 @@ public class AccountModel extends AbstractModel {
     public UserAddressDto getAddressFromPosition(int position) {
         return getUserAddresses().get(position);
     }
+
     //endregion
 
     //region ==================== Settings ===================
+
     public Observable<UserSettingsDto> getUserSettingsObs() {
         return Observable.just(getUserSettings());
     }
@@ -62,9 +65,11 @@ public class AccountModel extends AbstractModel {
         mDataManager.saveSetting(NOTIFICATION_ORDER_KEY, settings.isOrderNotification());
         mDataManager.saveSetting(NOTIFICATION_PROMO_KEY, settings.isPromoNotification());
     }
+
     //endregion
 
     //region ==================== User ===================
+
     public void saveProfileInfo(UserInfoDto userInfo) {
         mDataManager.saveProfileInfo(userInfo.getName(), userInfo.getPhone(),
                 userInfo.getAvatar());
@@ -82,5 +87,6 @@ public class AccountModel extends AbstractModel {
     public Observable<UserInfoDto> getUserInfoObs() {
         return mUserInfoObs;
     }
+
     //endregion
 }
