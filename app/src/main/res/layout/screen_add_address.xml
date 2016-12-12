@@ -38,6 +38,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:contentDescription="@string/dummy_content_description"
                 android:layout_width="@dimen/pointer_size"
                 android:layout_height="@dimen/pointer_size"
                 android:layout_marginEnd="@dimen/spacing_normal_16"
@@ -81,6 +82,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:contentDescription="@string/dummy_content_description"
                 android:layout_width="@dimen/pointer_size"
                 android:layout_height="@dimen/pointer_size"
                 android:layout_marginEnd="@dimen/spacing_normal_16"

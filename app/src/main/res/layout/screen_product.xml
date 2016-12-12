@@ -61,6 +61,7 @@
                             android:orientation="horizontal">
 
                             <ImageButton
+                                android:contentDescription="@string/dummy_content_description"
                                 android:id="@+id/minus_btn"
                                 style="@style/CountBtn"
                                 android:src="@drawable/ic_remove_black_24dp"/>
@@ -71,6 +72,7 @@
                                 android:text="@string/sample_quantity"/>
 
                             <ImageButton
+                                android:contentDescription="@string/dummy_content_description"
                                 android:id="@+id/plus_btn"
                                 style="@style/CountBtn"
                                 android:src="@drawable/ic_add_black_24dp"/>

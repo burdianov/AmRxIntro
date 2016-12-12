@@ -71,8 +71,7 @@ public class RootPresenter extends AbstractPresenter<IRootView> {
 
         boolean allGranted = true;
         for (String permission : permissions) {
-            int selfPermission = ContextCompat.checkSelfPermission((
-                    (RootActivity) getView()), permission);
+            int selfPermission = ContextCompat.checkSelfPermission(((RootActivity) getView()), permission);
             if (selfPermission != PackageManager.PERMISSION_GRANTED) {
                 allGranted = false;
                 break;

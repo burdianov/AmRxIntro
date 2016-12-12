@@ -47,6 +47,7 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
     }
 
     //region ==================== DI ===================
+
     @dagger.Module
     public class Module {
         @Provides
@@ -64,9 +65,11 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
 
         void inject(ProductView view);
     }
+
     //endregion
 
     //region ==================== Presenter ===================
+
     public class ProductPresenter extends ViewPresenter<ProductView> implements IProductPresenter {
 
         @Inject
@@ -112,5 +115,6 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
             }
         }
     }
+
     //endregion
 }

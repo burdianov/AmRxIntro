@@ -11,10 +11,12 @@
                 android:background="@drawable/nav_header_bg">
 
     <ImageView
+        android:contentDescription="@string/dummy_content_description"
         android:id="@+id/drawer_user_avatar"
         android:layout_width="@dimen/spacing_large_60"
         android:layout_height="@dimen/spacing_large_60"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"/>
 
     <TextView

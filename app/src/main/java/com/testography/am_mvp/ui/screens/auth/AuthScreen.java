@@ -127,11 +127,7 @@ public class AuthScreen extends AbstractScreen<RootActivity.RootComponent> {
                     getRootView().showMessage("request for user auth");
 
                     Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            getRootView().hideLoad();
-                        }
-                    }, 3000);
+                    handler.postDelayed(() -> getRootView().hideLoad(), 3000);
                 }
             }
         }

@@ -71,6 +71,7 @@
                 android:visibility="gone">
 
                 <ImageView
+                    android:contentDescription="@string/dummy_content_description"
                     style="@style/Icon"
                     android:src="@drawable/ic_account_circle_black_24dp"/>
 
@@ -99,6 +100,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:contentDescription="@string/dummy_content_description"
                     style="@style/Icon"
                     android:src="@drawable/ic_call_black_24dp"/>
 

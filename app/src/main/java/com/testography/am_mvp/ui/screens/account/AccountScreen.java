@@ -178,21 +178,17 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
         }
 
         private void handleActivityResult(ActivityResultDto activityResultDto) {
-            // TODO: 06-Dec-16 rewrite me in RX
 
-            switch (activityResultDto.getRequestCode()) {
-                case ConstantsManager.REQUEST_PROFILE_PHOTO_PICKER:
-                    if (activityResultDto.getIntent() != null) {
-                        String photoUrl = activityResultDto.getIntent().getData()
-                                .toString();
-                        getView().updateAvatarPhoto(Uri.parse(photoUrl));
-                    }
-                    break;
-                case ConstantsManager.REQUEST_PROFILE_PHOTO_CAMERA:
-                    if (mPhotoFile != null) {
-                        getView().updateAvatarPhoto(Uri.fromFile(mPhotoFile));
-                    }
-                    break;
+            if (getView() != null) {
+                Observable.just(activityResultDto)
+                        .filter(dto -> dto.getRequestCode() == ConstantsManager.REQUEST_PROFILE_PHOTO_PICKER)
+                        .filter(dto -> dto.getIntent() != null)
+                        .subscribe(dto -> getView().updateAvatarPhoto(Uri.parse(dto
+                                .getIntent().getData().toString())));
+
+                if (mPhotoFile != null) {
+                    getView().updateAvatarPhoto(Uri.fromFile(mPhotoFile));
+                }
             }
         }
 

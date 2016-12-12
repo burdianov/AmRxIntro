@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -47,9 +46,7 @@ import com.testography.am_mvp.ui.screens.account.AccountScreen;
 import com.testography.am_mvp.ui.screens.catalog.CatalogScreen;
 import com.testography.am_mvp.utils.RoundedAvatarDrawable;
 
-import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -81,14 +78,7 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     Picasso mPicasso;
 
     private AlertDialog.Builder exitDialog;
-    private ArrayList<Integer> mNavSet = new ArrayList<>();
 
-    private int mActiveNavItem = 1;
-
-    private File mPhotoFile = null;
-    private Uri mSelectedImage = null;
-
-//    private ActionBarDrawerToggle mToggle;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -186,27 +176,21 @@ public class RootActivity extends AppCompatActivity implements IRootView,
         switch (item.getItemId()) {
             case R.id.nav_account:
                 key = new AccountScreen();
-                mActiveNavItem = 0;
                 break;
             case R.id.nav_catalog:
                 key = new CatalogScreen();
-                mActiveNavItem = 1;
                 break;
             case R.id.nav_favorites:
-                mActiveNavItem = 2;
                 break;
             case R.id.nav_orders:
-                mActiveNavItem = 3;
                 break;
             case R.id.nav_notifications:
-                mActiveNavItem = 4;
                 break;
         }
         if (key != null) {
             Flow.get(this).set(key);
         }
         mDrawer.closeDrawer(GravityCompat.START);
-        mNavSet.add(mActiveNavItem);
 
         return true;
     }

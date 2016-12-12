@@ -1,51 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:paddingTop="@dimen/spacing_normal_16"
+    android:orientation="horizontal"
     android:paddingLeft="@dimen/spacing_normal_16"
-    android:orientation="horizontal">
+    android:paddingStart="@dimen/spacing_normal_16"
+    android:paddingTop="@dimen/spacing_normal_16">
+
+    <ImageView
+        style="@style/Icon"
+        android:layout_marginTop="@dimen/spacing_small_8"
+        android:contentDescription="@string/dummy_content_description"
+        android:src="@drawable/ic_place_black_24dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
 
-        <ImageView
-            style="@style/Icon"
-            android:layout_marginTop="@dimen/spacing_small_8"
-            android:src="@drawable/ic_place_black_24dp"/>
+        <TextView
+            android:id="@+id/label_address_txt"
+            style="@style/CustomText.AccountLabel"
+            tools:text="@string/location_label"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical">
+        <TextView
+            android:id="@+id/address_txt"
+            style="@style/CustomText.AccountValue"
+            android:text="@string/random_address"/>
 
-            <TextView
-                android:id="@+id/label_address_txt"
-                tools:text="@string/location_label"
-                style="@style/CustomText.AccountLabel"/>
+        <TextView
+            android:id="@+id/label_comment"
+            style="@style/CustomText.AccountLabel"
+            android:text="@string/label_comments"/>
 
-            <TextView
-                android:id="@+id/address_txt"
-                android:text="@string/random_address"
-                style="@style/CustomText.AccountValue"/>
+        <TextView
+            android:id="@+id/comment_txt"
+            style="@style/CustomText.AccountTitle"
+            android:text="@string/no_comment"/>
 
-            <TextView
-                android:id="@+id/label_comment"
-                android:text="@string/label_comments"
-                style="@style/CustomText.AccountLabel"/>
+        <View style="@style/HorizontalDivider"/>
 
-            <TextView
-                android:id="@+id/comment_txt"
-                android:text="@string/no_comment"
-                style="@style/CustomText.AccountTitle"/>
-
-            <View style="@style/HorizontalDivider"/>
-
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
