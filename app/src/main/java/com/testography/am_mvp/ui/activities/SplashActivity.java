@@ -76,24 +76,6 @@ public class SplashActivity extends AppCompatActivity implements IRootView {
                 (this);
     }
 
-    class ActivityResultTest {
-        private String name;
-        private int code;
-
-        public ActivityResultTest(String requestCode, int code) {
-            this.name = requestCode;
-            this.code = code;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getCode() {
-            return code;
-        }
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

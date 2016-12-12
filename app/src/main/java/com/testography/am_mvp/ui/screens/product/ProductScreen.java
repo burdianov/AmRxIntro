@@ -21,9 +21,6 @@ import mortar.ViewPresenter;
 @Screen(R.layout.screen_product)
 public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
 
-    @Inject
-    CatalogModel mCatalogModel;
-
     private ProductDto mProductDto;
 
     public ProductScreen(ProductDto product) {
@@ -71,6 +68,10 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
 
     //region ==================== Presenter ===================
     public class ProductPresenter extends ViewPresenter<ProductView> implements IProductPresenter {
+
+        @Inject
+        CatalogModel mCatalogModel;
+
         private ProductDto mProduct;
 
         public ProductPresenter(ProductDto productDto) {
@@ -93,24 +94,22 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
 
         @Override
         public void clickOnPlus() {
-            // TODO: 02-Dec-16 correct the implementation to avoid app crush
-           /* mProduct.addProduct();
+            mProduct.addProduct();
             mCatalogModel.updateProduct(mProduct);
             if (getView() != null) {
                 getView().updateProductCountView(mProduct);
-            }*/
+            }
         }
 
         @Override
         public void clickOnMinus() {
-            // TODO: 02-Dec-16 correct the implementation to avoid app crush
-            /*if (mProduct.getCount() > 0) {
+            if (mProduct.getCount() > 0) {
                 mProduct.deleteProduct();
                 mCatalogModel.updateProduct(mProduct);
                 if (getView() != null) {
                     getView().updateProductCountView(mProduct);
                 }
-            }*/
+            }
         }
     }
     //endregion
